@@ -7,7 +7,11 @@
 
 <body>
   <h1>Express</h1>
-  <p>Welcome to Express</p>
+  <p>Welcome to Express File upload</p>
+  <form action='http://localhost:3000/users/upload' method="POST" enctype="multipart/form-data">
+    <input type="file" name="fileupload">
+    <input type="submit" value="Subir">
+  </form>
 </body>
 
 </html>

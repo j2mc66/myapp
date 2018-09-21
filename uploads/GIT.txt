@@ -1,0 +1,147 @@
+GIT
+
+creacion de repositorio
+git init <nombre repo>
+
+eliminar un repo
+rm -rf .get
+
+crear un archivo desde consola
+touch index.html
+
+verificar archivos q han sido modificados
+git status
+
+git add index.html
+
+agregar todos
+git add -A
+
+agregar todos
+git add .
+
+confirma si existe un archivo
+git add -n 
+
+eliminar del stage archivo
+git rm --cache <file>
+
+eliminar completamente
+git rm -f <file>
+
+
+git commit -m "mensaje"
+
+git commit –amend: concatena nuevos cambios con cambios previos.
+
+git tag: nos permite agregar etiquetas a nuestros cambios.
+
+git tag -a 0.5 -m "mensaje"
+
+-a para la anotación
+-m para el mensaje
+
+-l nos muestra la lista de etiquetas
+git tag -l
+
+-f para renombrar
+git tag -f 1.0 -a 0.1 -m 'mensaje'
+
+-d para borrar
+git tag -d 1.0
+
+git log: log de commits
+
+git log --oneline
+
+git log --oneline --graph
+
+para comparar commits
+
+git diff <sha del commit>
+
+git diff <sha del commit> <sha del commit> 
+
+eliminar los cambios a partir de un commit no elimina archivos queda pendiente commit (deja en stage)
+git reset --soft <sha del commit>
+
+eliminar los cambios a partir de un commit no elimina archivos queda pendiente commit (elimina del staging)
+git reset --mixed <sha del commit>
+
+git reset HEAD <file>
+
+eliminar los cambios a partir de un commit borrando todo de stage
+git reset --hard <sha del commit>
+
+configurar otro editor
+git config --global core.editor "atom --wait"
+
+--------------------------
+
+git branch <nombre ramas>
+
+listar
+git branch l 
+
+eliminar rama
+git branch -d <nombre rama>
+
+eliminar rama forzado
+git branch -D x
+
+editar nombre ramas
+git branch -m <nombre rama actual> <nuevo nombre>
+
+para moverse entre ramas
+git checkout <nombre rama>
+
+para mcrear una rama
+git checkout -b <new branch name>
+
+para mesclar con una rama
+git merge <rama a mesclar>
+
+fast forward ->continua con los cambios
+recursive -> mescla recursiva
+
+para hacer merge reescribiendo
+git rebase -i updateA -> forma interactiva
+git rebase <nombre rama>
+
+para crear un stag de los cambios y no mesclarlos con otras ramas
+git stash
+git stash list
+git stash drop <id stash>
+git stash apply
+git stash apply <id stash>
+
+git cherry-pick <sha-commit>
+
+hacer una copia de un proyecto existente de otro repositorio
+git fork
+
+
+ssh-keygen -t rsa -b 4096 -C "j2mc66@hotmail.com"
+
+
+git remote add origin <url gitHub>
+
+git remote -v
+
+git remote remove origin
+
+traer cambios
+git fetch origin master
+git merge origin/master
+si sale error -> fatal refusing to merge unrelated histories
+git merge origin/master --allow-urelated-histories
+
+fetch y merge en uno solo
+git pull origin master
+
+git push origin master
+
+
+git push origin master --tags -> enviar los tags
+
+git push origin <otra rama>
