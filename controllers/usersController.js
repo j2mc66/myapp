@@ -9,27 +9,31 @@ exports.login = function (req, res) {
     let url = req.url;
     let user = req.body;
     if (user && user.username && user.password) {
-        User.findOne({ 'username': user.username }, (err, userdb) => {            
-            if (err || !userdb) {
-                return res.status(401).json("Usuario o contraseña invalidos.");
-            } else if (userdb.status && userdb.status == 'active') {
-				bcrypt.compare(user.password, userdb.password, function(err, isCorrect) {
-					if (err || !isCorrect) {
-                        res.status(401).json("Usuario o contraseña invalidos.");
-                    } else {
-                        /*Permiso.find({ $and: [{ 'rol': { $in: userdb.roles }, 'recurso': url }] }, (err, permisosdb) => {
-                            if (err || !permisosdb || permisosdb.length <= 0) {
-                                return res.status(401).json("Usuario no autorizado.");
-                            }*/
-                            let tokenJWT = auth.generateToken(userdb);
-                            return res.status(200).json({ token: tokenJWT });
-                       // });
-                    }
-				});
-            } else {
-                res.status(401).json("Usuario inactivo.");
-            }
-        });
+        User.findOne({ 'username': user.username })
+            .then(userdb => {            
+                if (!userdb) {
+                    return res.status(401).json("Usuario o contraseña invalidos.");
+                } else if (userdb.status && userdb.status == 'active') {
+                    bcrypt.compare(user.password, userdb.password, function(err, isCorrect) {
+                        if (err || !isCorrect) {
+                            res.status(401).json("Usuario o contraseña invalidos.");
+                        } else {
+                            /*Permiso.find({ $and: [{ 'rol': { $in: userdb.roles }, 'recurso': url }] }, (err, permisosdb) => {
+                                if (err || !permisosdb || permisosdb.length <= 0) {
+                                    return res.status(401).json("Usuario no autorizado.");
+                                }*/
+                                let tokenJWT = auth.generateToken(userdb);
+                                return res.status(200).json({ token: tokenJWT });
+                        // });
+                        }
+                    });
+                } else {
+                    res.status(401).json("Usuario inactivo.");
+                }
+            })
+            .catch(err =>{
+                return res.status(401).json("Error al obtener usuario o contraseña." + err);
+            });
     } else {
         res.status(400).json("Datos de entrada incorrectos.");
     }
@@ -52,13 +56,13 @@ exports.save = function(req, res) {
     bcrypt.hash(data.password, 10, function(err, hashedPassword) {
         data.password = hashedPassword;
         User.create(data)
-        .then(user => {
-            res.json(user);
-        })
-        .catch(err => {
-            //logger.error(err);
-            res.status(500).send(err);
-        });
+            .then(user => {
+                res.json(user);
+            })
+            .catch(err => {
+                //logger.error(err);
+                res.status(500).send(err);
+            });
     });
 };
 
@@ -69,7 +73,6 @@ exports.update = function(req, res) {
 			if (!user) {
 				return res.sendStatus(404);
 			}
-
 			res.json(user);
 		})
 		.catch(err => {
